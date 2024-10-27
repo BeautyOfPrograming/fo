@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Fragment4</string>
+    <string name="detail_activity">detail_activity</string>
+</resources>

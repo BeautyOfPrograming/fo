@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_profile"
+        android:title="اطلاعات ازتو"
+        android:icon="@drawable/profile_foreground"/>
+    <item
+        android:id="@+id/navigation_home"
+        android:title="خانه تو"
+        android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/navigation_favourite"
+        android:title="غذای دلکش تو"
+        android:icon="@drawable/favourite_foreground"/>
+</menu>
