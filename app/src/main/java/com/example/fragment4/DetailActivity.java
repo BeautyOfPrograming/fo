@@ -2,6 +2,7 @@ package com.example.fragment4;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 /**
  * This activity displays details of a food item and allows adding it to the cart.
+ *
  */
 public class DetailActivity extends AppCompatActivity {
 
@@ -95,13 +97,22 @@ public class DetailActivity extends AppCompatActivity {
                 && intent.hasExtra("title") && intent.hasExtra("price")) {
 
             // Retrieve data from Intent extras
-            String image = intent.getStringExtra("image");
+
+
             String description = intent.getStringExtra("description");
             String title = intent.getStringExtra("title");
             String price = intent.getStringExtra("price");
 
-            // Update views with retrieved data
-            Picasso.get().load(image).into(detailImage);
+
+       
+            // Get the image resource ID from the Intent
+            int imageResourceId = getIntent().getIntExtra("image", -1); // Get the resource ID (or -1 if not found)
+            // Convert the resource ID to a URI
+            Uri imageUri = Uri.parse("android.resource://" + getPackageName() + "/" + imageResourceId);
+            // Load the image using Picasso
+            Picasso.get().load(imageUri).into(detailImage);
+
+
             detailTitle.setText(title);
             detailPrice.setText(price);
             detailDescription.setText(description);

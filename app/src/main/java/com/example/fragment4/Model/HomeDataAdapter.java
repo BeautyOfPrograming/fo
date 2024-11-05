@@ -1,9 +1,9 @@
 package com.example.fragment4.Model;
 
 
-
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import com.example.fragment4.DetailActivity;
 import com.squareup.picasso.Picasso;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fragment4.R;
 
 import java.util.List;
+
 public class HomeDataAdapter extends RecyclerView.Adapter<HomeDataAdapter.ViewHolder> {
 
     private List<HomeDataModel> dataList;
@@ -43,6 +45,55 @@ public class HomeDataAdapter extends RecyclerView.Adapter<HomeDataAdapter.ViewHo
         holder.des.setText(item.getDes());
         holder.price.setText(" هزار تومان" + item.getPrice());
 
+
+        ViewGroup.LayoutParams layoutParams = holder.id_product_image.getLayoutParams();
+        if (item.getText() == "کباب") {
+
+            // Set specific height and width for "کباب" items
+
+            layoutParams.height = 350;
+            // layoutParams.width = desiredWidth;
+            // Apply the modified layout params back to the ImageView
+            holder.id_product_image.setLayoutParams(layoutParams);
+        }
+
+        if (item.getText() == "پیتزا") {
+
+            // Set specific height and width for "کباب" items
+            layoutParams.height = 350;
+            // layoutParams.width = desiredWidth;
+            // Apply the modified layout params back to the ImageView
+            holder.id_product_image.setLayoutParams(layoutParams);
+        }
+        if (item.getText() == "میگو") {
+
+            // Set specific height and width for "کباب" items
+            layoutParams.height = 300;
+            // layoutParams.width = desiredWidth;
+            // Apply the modified layout params back to the ImageView
+            holder.id_product_image.setLayoutParams(layoutParams);
+        }
+        if (item.getText() == "مرغ تازه") {
+
+            // Set specific height and width for "hen" items
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+
+            int hdp = 200;
+            int hpx = (int) (hdp * metrics.density + 0.5f);
+            layoutParams.height = hpx;
+
+//            int wdp = 890;
+//            int wpx = (int) (wdp * metrics.density + 0.5f);
+//            layoutParams.width = wpx;
+
+
+            // Apply the modified layout params back to the ImageView
+
+//            holder.id_product_image.setPadding(0, 0, 0, 80);
+            holder.id_product_image.setLayoutParams(layoutParams);
+        }
+
+
         Picasso.get().load(item.getImage()).into(holder.id_product_image);
 
         // ... other view holder setup
@@ -58,7 +109,7 @@ public class HomeDataAdapter extends RecyclerView.Adapter<HomeDataAdapter.ViewHo
                 HomeDataModel clickedItem = dataList.get(clickedPosition);
 
                 // Use public methods to access data
-                String image = clickedItem.getImage();
+                int image = clickedItem.getImage();
                 String title = clickedItem.getText();
                 String price = clickedItem.getPrice();
                 String description = clickedItem.getDes();
@@ -76,7 +127,6 @@ public class HomeDataAdapter extends RecyclerView.Adapter<HomeDataAdapter.ViewHo
             }
         });
     }
-
 
 
     @Override

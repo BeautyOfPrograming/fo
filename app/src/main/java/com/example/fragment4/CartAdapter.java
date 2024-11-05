@@ -6,6 +6,7 @@ import android.content.Context;
 
 
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +104,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Food food = data.get(position);
         holder.txtTitleCart.setText(food.getTitle());
         holder.picCart.setImageResource(food.getPic());
+        Log.e("HH",food.getPic()+"");
         holder.feeEachItem.setText(String.valueOf(food.getFee()));
         holder.totalEachItem.setText(String.valueOf(food.getFee() * food.getNumberInCart())); // Assuming total is same as fee for now
         holder.numItems.setText(String.valueOf(food.getNumberInCart()));

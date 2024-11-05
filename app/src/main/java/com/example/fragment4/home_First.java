@@ -21,7 +21,8 @@ import com.example.fragment4.Model.HomeDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// previouse images,detail image,image in history,persian text,down screen,,image at the same size
+// 
 public class home_First extends Fragment {
 
     private RecyclerView recyclerView;
@@ -42,14 +43,22 @@ public class home_First extends Fragment {
 
         // Populate data (replace with your actual data fetching logic)
         List<HomeDataModel> dataList = new ArrayList<>();
-        dataList.add(new HomeDataModel("پیتزا", "پیتزا خانواده متوسط", "45", "https://th.bing.com/th/id/OIP.qkUEGyxIRxgvP4E60NjdsgHaG0?rs=1&pid=ImgDetMain"));
-        dataList.add(new HomeDataModel("کباب", "تک نفره", "55", "https://www.deliciousmeetshealthy.com/wp-content/uploads/2018/06/Mediterranean-Chicken-Kebabs-1.jpg"));
-        dataList.add(new HomeDataModel("میگو", " غذای دریایی خزر", "15", "https://th.bing.com/th/id/R.f273cc472f9c5d106091befac0534041?rik=zixY0vsBS2hujA&riu=http%3a%2f%2fharfetaze.com%2fwp-content%2fuploads%2f2018%2f01%2fmeigoo-2.jpg&ehk=uzeg%2bqrdZI%2bxVMOYn6JMEzJu2FX%2ffWXav4kzA1SjWfM%3d&risl=&pid=ImgRaw&r=0"));
-        dataList.add(new HomeDataModel("مرغ تازه", " غذای خوشمزه", "09", "https://th.bing.com/th/id/OIP.81wUmwhNaxQdzOmX5f374AHaE8?rs=1&pid=ImgDetMain"));
-        dataList.add(new HomeDataModel("تخم مرغ", " غذای نگو", "10", "https://th.bing.com/th/id/R.43a2b355cc7e5388c5a232347142ba84?rik=wSPuTQEaN1oyAA&pid=ImgRaw&r=0"));
-        dataList.add(new HomeDataModel("ساندویچ", " وای ازمزش", "16", "https://th.bing.com/th/id/R.50805909493317e78c5c099d59797c82?rik=5Rb21NiaB%2fis8A&pid=ImgRaw&r=0"));
-        dataList.add(new HomeDataModel("سویا", " غذای به به", "18", "https://rasekhoon.net/_files/images/article/5d4da426-08ae-41f8-8703-4538585eb08d.jpg"));
-        dataList.add(new HomeDataModel("کباب بریان", " غدای", "15", "https://th.bing.com/th/id/OIP._FZjxy8E4dWRqYjU9IDVUQHaHa?w=1060&h=1060&rs=1&pid=ImgDetMain"));
+        int imageResourceId1 = R.drawable.pizza1;
+        int imageResourceId2 = R.drawable.chickenkebab2;
+        int imageResourceId3 = R.drawable.meqo7;
+        int imageResourceId4 = R.drawable.chicken4;
+        int imageResourceId5 = R.drawable.eggs5;
+        int imageResourceId6 = R.drawable.sandiwich6;
+        int imageResourceId7 = R.drawable.soya8;
+        int imageResourceId8 = R.drawable.rosted3;
+        dataList.add(new HomeDataModel("پیتزا", "پیتزا خانواده متوسط", "45", imageResourceId1));
+        dataList.add(new HomeDataModel("کباب", "تک نفره", "55",  imageResourceId2));
+        dataList.add(new HomeDataModel("میگو", " غذای دریایی خزر", "15",imageResourceId3 ));
+        dataList.add(new HomeDataModel("مرغ تازه", " غذای خوشمزه", "09", imageResourceId4));
+        dataList.add(new HomeDataModel("تخم مرغ", " غذای نگو", "10", imageResourceId5));
+        dataList.add(new HomeDataModel("ساندویچ", " وای ازمزش", "16", imageResourceId6));
+        dataList.add(new HomeDataModel("سویا", " غذای به به", "18", imageResourceId7));
+        dataList.add(new HomeDataModel("کباب بریان", " غدای", "15", imageResourceId8));
 
 //        https://parade.com/.image/c_limit%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_700/MTkwNTgxMjE5MjE2NDY3ODM2/salmon-citrus-skewers.jpg
         // Create and set the adapter

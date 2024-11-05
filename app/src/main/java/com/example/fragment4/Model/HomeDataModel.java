@@ -3,8 +3,8 @@ package com.example.fragment4.Model;
 import java.io.Serializable;
 
 public class HomeDataModel implements Serializable {
-    private String text, des,price,image;
-
+    private String text, des,price;
+    private int image;
 
 
     public String getText() {
@@ -19,11 +19,11 @@ public class HomeDataModel implements Serializable {
         return price;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public HomeDataModel (String text, String des, String price, String image) {
+    public HomeDataModel (String text, String des, String price, int image) {
         this.text = text;
         this.des = des;
         this.price = price;
@@ -42,7 +42,7 @@ public class HomeDataModel implements Serializable {
         this.price = price;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 
