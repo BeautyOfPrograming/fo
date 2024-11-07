@@ -23,7 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
+import androidx.recyclerview.widget.ItemTouchHelper;
 public class Fragment_Profile extends Fragment {
 
     private RecyclerView recyclerView;
@@ -47,6 +47,8 @@ public class Fragment_Profile extends Fragment {
 
         adapter = new HistoryCartAdapter(getContext(), historyList);
         recyclerView.setAdapter(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         return view;
     }
@@ -80,4 +82,33 @@ public class Fragment_Profile extends Fragment {
         return historyList;
     }
 
+
+    private class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
+
+        private HistoryCartAdapter adapter;
+
+        public SwipeToDeleteCallback(HistoryCartAdapter adapter) {
+            super(0, ItemTouchHelper.LEFT); // Only allow left swipes
+            this.adapter = adapter;
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            // Not used in this case (no drag and drop functionality)
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            adapter.removeItem(position); // Remove item from data and adapter
+        }
+
+        @Override
+        public int getDragDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            // Not used in this case (no drag and drop functionality)
+            return 0;
+        }
+    }
 }
+

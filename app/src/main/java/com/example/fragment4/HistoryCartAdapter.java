@@ -39,6 +39,10 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
     private TextView itemsTotalTextView;
     private TextView totalPriceTextView;
 
+    public void removeItem(int position) {
+        historyList.remove(position);
+        notifyItemRemoved(position); // Notify adapter about data change
+    }
     public void setItemsTotalTextView(TextView itemsTotalTextView) {
         this.itemsTotalTextView = itemsTotalTextView;
     }
