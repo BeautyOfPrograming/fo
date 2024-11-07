@@ -1,11 +1,13 @@
 package com.example.fragment4;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Intent.getIntent;
 
 import android.content.Context;
 
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.example.fragment4.Model.Food;
 import com.example.fragment4.Model.OnRemoveItemClickListener;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 /**
  * This class represents an adapter for displaying cart items in a RecyclerView.
@@ -103,11 +106,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Food food = data.get(position);
         holder.txtTitleCart.setText(food.getTitle());
-        holder.picCart.setImageResource(food.getPic());
+//        holder.picCart.setImageResource(food.getPic());
         Log.e("HH",food.getPic()+"");
         holder.feeEachItem.setText(String.valueOf(food.getFee()));
         holder.totalEachItem.setText(String.valueOf(food.getFee() * food.getNumberInCart())); // Assuming total is same as fee for now
         holder.numItems.setText(String.valueOf(food.getNumberInCart()));
+
+
+        int imageResourceId = food.getPic(); // Get the resource ID (or -1 if not found)
+        // Convert the resource ID to a URI
+        Uri imageUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + imageResourceId);
+        // Load the image using Picasso
+        Picasso.get().load(imageUri).into(holder.picCart);
+
 
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override

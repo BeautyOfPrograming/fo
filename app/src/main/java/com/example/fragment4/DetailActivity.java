@@ -61,7 +61,9 @@ public class DetailActivity extends AppCompatActivity {
                 cartList = getCartListFromSharedPreferences();
 
                 // Add the new item to the cart list
-                cartList.add(new Food(title, R.drawable.pop_1, detailDescription.getText().toString(), price, quantity));
+                int imageResourceId = getIntent().getIntExtra("image", -1); // Get the resource ID (or -1 if not found)
+
+                cartList.add(new Food(title, imageResourceId, detailDescription.getText().toString(), price, quantity));
 
                 // Save the updated cart list to shared preferences
                 saveCartListToSharedPreferences(cartList);
