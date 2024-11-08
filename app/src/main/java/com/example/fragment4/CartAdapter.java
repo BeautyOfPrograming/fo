@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 import java.util.ArrayList;
 
 
@@ -29,7 +28,9 @@ import com.example.fragment4.Model.Food;
 import com.example.fragment4.Model.OnRemoveItemClickListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 /**
  * This class represents an adapter for displaying cart items in a RecyclerView.
  */
@@ -74,7 +75,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
      * Constructor for the CartAdapter.
      *
      * @param context The context of the activity or fragment.
-     * @param data The list of Food objects representing cart items.
+     * @param data    The list of Food objects representing cart items.
      */
     public CartAdapter(Context context, ArrayList<Food> data) {
         this.context = context;
@@ -84,7 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     /**
      * Creates a new CartViewHolder instance by inflating the cart item layout.
      *
-     * @param parent The ViewGroup where the inflated view will be added.
+     * @param parent   The ViewGroup where the inflated view will be added.
      * @param viewType The view type for the current position.
      * @return A new CartViewHolder instance.
      */
@@ -99,7 +100,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     /**
      * Binds the data for a specific cart item to the corresponding view holder.
      *
-     * @param holder The CartViewHolder instance to bind data to.
+     * @param holder   The CartViewHolder instance to bind data to.
      * @param position The position of the item in the data list.
      */
     @Override
@@ -107,7 +108,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Food food = data.get(position);
         holder.txtTitleCart.setText(food.getTitle());
 //        holder.picCart.setImageResource(food.getPic());
-        Log.e("HH",food.getPic()+"");
+        Log.e("HH", food.getPic() + "");
         holder.feeEachItem.setText(String.valueOf(food.getFee()));
         holder.totalEachItem.setText(String.valueOf(food.getFee() * food.getNumberInCart())); // Assuming total is same as fee for now
         holder.numItems.setText(String.valueOf(food.getNumberInCart()));
@@ -119,18 +120,53 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         // Load the image using Picasso
         Picasso.get().load(imageUri).into(holder.picCart);
 
-
-        holder.remove.setOnClickListener(new View.OnClickListener() {
+        holder.plusBtnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "Item removed", Toast.LENGTH_SHORT).show();
                 int position = holder.getAdapterPosition();
-
-                if (onRemoveItemClickListener != null) {
+                Food food = data.get(position);
+                food.setNumberInCart(food.getNumberInCart() + 1);
+                data.set(position, food);
+                notifyItemChanged(position);
+                updateTotal();
+            }
+        });
+        holder.minBtnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                Food food = data.get(position);
+                if (food.getNumberInCart() > 1) {
+                    food.setNumberInCart(food.getNumberInCart() - 1);
+                    data.set(position, food);
+                    notifyItemChanged(position);
+                    updateTotal();
+                } else {
+                    // Handle removing the item if quantity reaches 0
                     onRemoveItem(position);
                 }
             }
         });
+    }
+
+    private void updateTotal() {
+        int totalItems = 0;
+        double totalPrice = 0.0;
+        for (Food item : data) {
+            totalItems += item.getNumberInCart();
+            totalPrice += item.getFee() * item.getNumberInCart();
+        }
+
+        if (itemsTotalTextView != null) {
+            itemsTotalTextView.setText("Items Total: " + totalItems);
+        }
+
+        if (totalPriceTextView != null) {
+            totalPriceTextView.setText("Total: $" + totalPrice);
+        }
+
+        // Update shared preferences
+        saveCartListToSharedPreferences(data);
     }
 
     /**
@@ -201,7 +237,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         public TextView feeEachItem;
         public TextView totalEachItem;
         public TextView numItems;
-        public ImageView remove;
+        public ImageView minBtnCart;
+        public ImageView plusBtnCart;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -210,7 +247,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             feeEachItem = itemView.findViewById(R.id.feeEachItem);
             totalEachItem = itemView.findViewById(R.id.totalEachItem);
             numItems = itemView.findViewById(R.id.numItems);
-            remove = itemView.findViewById(R.id.minBtnCart);
+            minBtnCart = itemView.findViewById(R.id.minBtnCart);
+            plusBtnCart = itemView.findViewById(R.id.plusBtnCart);
         }
     }
 
