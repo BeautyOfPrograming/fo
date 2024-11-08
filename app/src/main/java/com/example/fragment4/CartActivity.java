@@ -219,7 +219,8 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         SharedPreferences sharedPref = getSharedPreferences("purchaseHistory", MODE_PRIVATE);
         String historyJson = sharedPref.getString("lastPurchase", "");
 
-        ArrayList<Food> historyList = new Gson().fromJson(historyJson, new TypeToken<ArrayList<Food>>() {}.getType());
+        ArrayList<Food> historyList = new Gson().fromJson(historyJson, new TypeToken<ArrayList<Food>>() {
+        }.getType());
         return historyList;
     }
 
@@ -234,7 +235,8 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         cartList.remove(position);
         adapter.notifyItemRemoved(position); // Notify adapter about data change
 
-
+        // Recalculate totals and update UI
+        calculateTotals(cartList);
         // Update shared preferences with the modified cart list
         saveCartListToSharedPreferences(cartList);
     }
