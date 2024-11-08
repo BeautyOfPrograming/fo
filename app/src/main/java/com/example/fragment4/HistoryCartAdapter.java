@@ -42,6 +42,13 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
     public void removeItem(int position) {
         historyList.remove(position);
         notifyItemRemoved(position); // Notify adapter about data change
+
+        // Update SharedPreferences with the updated historyList
+        SharedPreferences.Editor editor = context.getSharedPreferences("purchaseHistory", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(historyList);
+        editor.putString("lastPurchase", json);
+        editor.apply();
     }
     public void setItemsTotalTextView(TextView itemsTotalTextView) {
         this.itemsTotalTextView = itemsTotalTextView;
