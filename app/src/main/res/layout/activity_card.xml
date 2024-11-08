@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--    textView13 ,txtTotalFee  textView19,textView20    and apply it to these views too as well  textView19,textView20-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -65,13 +65,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Items Total:"
+                    android:text="تعداد کل:"
+                    android:textAlignment="textStart"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/txtTotalFee"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/guideline7"
+                    app:layout_constraintStart_toEndOf="@+id/txtTotalFee"
                     app:layout_constraintTop_toBottomOf="@+id/rvItemsInCart" />
 
                 <TextView
@@ -83,9 +84,9 @@
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textView13"
+                    app:layout_constraintStart_toStartOf="@+id/guideline7"
+
                     app:layout_constraintTop_toBottomOf="@+id/rvItemsInCart" />
 
                 <TextView
@@ -121,9 +122,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/orange_button"
                     android:text="تکمیل خرید"
                     android:textAllCaps="false"
-                    android:background="@drawable/orange_button"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
