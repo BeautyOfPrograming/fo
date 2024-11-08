@@ -170,6 +170,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     /**
+     *
      * Returns the total number of items in the cart data list.
      *
      * @return The number of items in the cart.
