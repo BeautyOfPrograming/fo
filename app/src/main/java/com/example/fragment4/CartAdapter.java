@@ -158,11 +158,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
 
         if (itemsTotalTextView != null) {
-            itemsTotalTextView.setText("Items Total: " + totalItems);
+            itemsTotalTextView.setText("" + totalItems);
         }
 
         if (totalPriceTextView != null) {
-            totalPriceTextView.setText("Total: $" + totalPrice);
+            totalPriceTextView.setText("" + totalPrice);
         }
 
         // Update shared preferences
