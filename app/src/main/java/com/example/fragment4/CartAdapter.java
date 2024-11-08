@@ -29,7 +29,7 @@ import com.example.fragment4.Model.Food;
 import com.example.fragment4.Model.OnRemoveItemClickListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
+import androidx.recyclerview.widget.ItemTouchHelper;
 /**
  * This class represents an adapter for displaying cart items in a RecyclerView.
  */
@@ -213,4 +213,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             remove = itemView.findViewById(R.id.minBtnCart);
         }
     }
+
+
 }

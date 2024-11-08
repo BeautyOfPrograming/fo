@@ -1,6 +1,8 @@
 package com.example.fragment4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -85,6 +87,9 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
             adapter.setTotalPriceTextView(totalPrice);
             adapter.setOnRemoveItemClickListener(this);
             recyclerView.setAdapter(adapter);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback());
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+
             // Notify adapter of data change
             calculateTotals(cartList);
             adapter.notifyDataSetChanged();
@@ -234,5 +239,29 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         saveCartListToSharedPreferences(cartList);
     }
 
+    private class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
+
+        public SwipeToDeleteCallback() {
+            super(0, ItemTouchHelper.LEFT); // Only allow left swipes
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            // Not used in this case (no drag and drop functionality)
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            onRemoveItem(position); // Call your existing onRemoveItem method
+        }
+
+        @Override
+        public int getDragDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            // Not used in this case (no drag and drop functionality)
+            return 0;
+        }
+    }
 
 }
