@@ -94,13 +94,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Total:"
+                    android:text="قیمت کل:"
                     android:textColor="#373b54"
                     android:textSize="26sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/textView20"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toBottomOf="@+id/txtTotalFee" />
 
                 <TextView
@@ -112,9 +111,9 @@
                     android:textColor="#373b54"
                     android:textSize="26sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/textView19"
+                    app:layout_constraintStart_toStartOf="@+id/guideline7"
+
                     app:layout_constraintTop_toBottomOf="@+id/txtTotalFee" />
 
                 <Button
