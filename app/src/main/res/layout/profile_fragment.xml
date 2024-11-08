@@ -66,13 +66,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Items Total:"
+                    android:text="تعداد کل"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/htxtTotalFee"
+                    app:layout_constraintEnd_toEndOf="@+id/hguideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/hguideline7"
+
                     app:layout_constraintTop_toBottomOf="@+id/hrvItemsInCart" />
 
                 <TextView
@@ -84,9 +84,9 @@
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/hguideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/htextView13"
+                    app:layout_constraintStart_toStartOf="@+id/hguideline7"
+
                     app:layout_constraintTop_toBottomOf="@+id/hrvItemsInCart" />
 
                 <TextView
@@ -94,13 +94,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Total:"
+                    android:text="قیمت کل:"
                     android:textColor="#373b54"
                     android:textSize="26sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/textView20"
+
+                    app:layout_constraintEnd_toEndOf="@+id/hguideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/hguideline7"
                     app:layout_constraintTop_toBottomOf="@+id/htxtTotalFee" />
 
                 <TextView
@@ -112,9 +112,9 @@
                     android:textColor="#373b54"
                     android:textSize="26sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/hguideline6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/htextView19"
+                    app:layout_constraintStart_toStartOf="@+id/hguideline7"
+
                     app:layout_constraintTop_toBottomOf="@+id/htxtTotalFee" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
