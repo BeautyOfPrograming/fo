@@ -6,7 +6,6 @@ import static android.app.PendingIntent.getActivity;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -21,9 +20,9 @@ import com.example.fragment4.Model.HomeDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
-// previouse images,detail image,image in history,persian text,down screen,,image at the same size
-// 
-public class home_First extends Fragment {
+// previous images,detail image,image in history,persian text,down screen,,image at the same size
+//  most delicious food for all people
+public class homeOfFood extends Fragment {
 
     private RecyclerView recyclerView;
     private HomeDataAdapter adapter;
@@ -32,7 +31,7 @@ public class home_First extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        View view = inflater.inflate(R.layout.home_of_food_fragment, container, false);
 
         // Find the RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);

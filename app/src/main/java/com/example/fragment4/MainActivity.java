@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         container = findViewById(R.id.container);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        fragmentHome = new home_First();
+        fragmentHome = new homeOfFood();
         fragmentSecond = new Fragment_favourite();
         fragmentThird = new Fragment_Profile();  // Assuming Fragment_Profile is for the profile
 
