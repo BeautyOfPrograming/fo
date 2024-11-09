@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         // Optional: Text view and button references
 
         // Load image from resources (replace with your image resource)
-        splashImage.setImageResource(R.drawable.img_1);
+        splashImage.setImageResource(R.drawable.img);
 
         // Optional: Handle button clicks and navigation
         // ...
