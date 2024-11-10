@@ -16,6 +16,7 @@ import com.example.fragment4.Model.OnRemoveItemClickListener;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.parse.ParseObject;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -57,10 +58,24 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        ParseObject firstObject = new ParseObject("FirstClass");
+        firstObject.put("message", "Hey ! First message from android. Parse is now connected");
+        firstObject.saveInBackground(e -> {
+            if (e != null) {
+                Log.e("MainActivity", e.getLocalizedMessage());
+            } else {
+                Log.d("MainActivity", "Object saved.");
+            }
+        });
+
+
         setContentView(R.layout.activity_card); // Set the layout for this activity
         totalOfItem = findViewById(R.id.txtTotalFee);
         totalPrice = findViewById(R.id.textView20);
         checkout = findViewById(R.id.button2);
+
 
         //Fetch the existing purchase history from SharedPreferences
         // historyList = getCartListFromSharedPreferences();

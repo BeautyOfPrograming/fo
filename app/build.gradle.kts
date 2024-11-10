@@ -20,8 +20,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
@@ -32,13 +32,20 @@ android {
 }
 
 dependencies {
-    implementation ("com.google.code.gson:gson:2.10.1")
-    implementation ("androidx.preference:preference-ktx:1.2.0")
-    implementation ("com.squareup.picasso:picasso:2.8")
-    implementation ("com.intuit.sdp:sdp-android:1.1.1")
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+
+    implementation("com.github.parse-community.Parse-SDK-Android:parse:4.3.0")
+
+
+
+
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.intuit.sdp:sdp-android:1.1.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 //    implementation ("com.google.android.material:material:1.13.0")
-    implementation   ("de.hdodenhof:circleimageview:2.1.0")
+    implementation("de.hdodenhof:circleimageview:2.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
