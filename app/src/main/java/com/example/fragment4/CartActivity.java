@@ -75,12 +75,12 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Save cart to back4app
+                // if the below is enabled it saves  purchase to back4app
                 historyList = cartList;
                 saveCartToBack4App(cartList);
 
-                // save to history
-
+                // if the below is enabled it saves  history in local file
+                // saveCartAsHistory(historyList);
 
             }
         });

@@ -57,6 +57,10 @@ public class Fragment_Profile extends Fragment {
         // Fetch history data from Back4App
         fetchPurchaseHistoryFromBack4App();
 
+        // if the below is enabled it shows purchases from local file
+        // historyList = getPurchaseHistory();
+
+
         adapter = new HistoryCartAdapter(getContext(), historyList);
         recyclerView.setAdapter(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
