@@ -62,36 +62,26 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         super.onCreate(savedInstanceState);
 
 
-        ParseObject firstObject = new ParseObject("FirstClass");
-        firstObject.put("message", "Hey ! First message from android. Parse is now connected");
-        firstObject.saveInBackground(e -> {
-            if (e != null) {
-                Log.e("MainActivity", e.getLocalizedMessage());
-            } else {
-                Log.d("MainActivity", "Object saved.");
-            }
-        });
-
-
-        setContentView(R.layout.activity_card); // Set the layout for this activity
+        // Set the layout for this activity
+        setContentView(R.layout.activity_card);
         totalOfItem = findViewById(R.id.txtTotalFee);
         totalPrice = findViewById(R.id.textView20);
         checkout = findViewById(R.id.button2);
 
 
-        //Fetch the existing purchase history from SharedPreferences
-        // historyList = getCartListFromSharedPreferences();
         // Get the cart list from shared preferences
         cartList = getCartListFromSharedPreferences();
 
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Save cart as history
+                // Save cart to back4app
                 historyList = cartList;
-                saveCartAsHistory(cartList);
+                saveCartToBack4App(cartList);
 
-                // Additional actions (e.g., clear cart, navigate to confirmation)
+                // save to history
+
+
             }
         });
         // Check if the cartList is not null and contains items
@@ -118,12 +108,8 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
 
     }
 
-//    private ArrayList<Food> getPurchaseHistory() {
-////
-//
-//    }
 
-    private void saveCartAsHistory(ArrayList<Food> cartList) {
+    private void saveCartToBack4App(ArrayList<Food> cartList) {
         if (cartList != null && !cartList.isEmpty()) {
             for (Food item : cartList) {
                 ParseObject purchaseHistory = new ParseObject("PurchaseHistory");
@@ -135,13 +121,20 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
                 purchaseHistory.put("item_name", item.getTitle());
                 purchaseHistory.put("item_price", item.getFee());
                 purchaseHistory.put("quantity", item.getNumberInCart());
-                purchaseHistory.put("item_image", item.getPic() );
+                purchaseHistory.put("item_image", item.getPic());
 
                 purchaseHistory.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
+
+                            cartList.clear();
+                            // Save the currently cart items  status, it is need if you want to empty the cart after purchasing
+                            saveCartListToSharedPreferences(cartList);
+                            // Update adapter to reflect empty cart
+                            adapter.notifyDataSetChanged();
                             Log.d("CartActivity", "Purchase history saved successfully!");
+
                         } else {
                             Log.e("CartActivity", "Error saving purchase history: " + e.getMessage(), e);
                             Toast.makeText(CartActivity.this, "Error saving history to Back4App!", Toast.LENGTH_SHORT).show();
@@ -150,19 +143,51 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
                 });
             }
 
-            // save to history sharedpreferences
-            saveToHistory();
-            // Clear the current cart after successful save
-            cartList.clear();
-            saveCartListToSharedPreferences(cartList);  // Save the empty cart
-            adapter.notifyDataSetChanged();  // Update adapter to reflect empty cart
-            Toast.makeText(this, "Cart saved as history", Toast.LENGTH_SHORT).show();
+
         } else {
             Toast.makeText(this, "Cart is already empty!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void saveToHistory() {
+    private void saveCartAsHistory(ArrayList<Food> cartList) {
+
+        if (cartList != null && !cartList.isEmpty()) {
+
+            // Get existing purchase history (if any)
+            ArrayList<Food> existingHistory = getPurchaseHistory();
+
+            // Create a new list to hold the complete history
+            ArrayList<Food> completeHistory = new ArrayList<>();
+
+            // Append current cart to history
+            if (existingHistory != null) {
+                completeHistory.addAll(existingHistory);
+            }
+            completeHistory.addAll(cartList);
+
+            // Convert the complete history to JSON string
+            String historyJson = new Gson().toJson(completeHistory);
+
+            // Save the JSON string to purchaseHistory
+            SharedPreferences sharedPref = getSharedPreferences("purchaseHistory", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("lastPurchase", historyJson);
+            editor.apply();
+
+            // Clear the current cart
+            cartList.clear();
+            // Save the currently cart items
+            saveCartListToSharedPreferences(cartList);
+            // Update adapter to reflect empty cart
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Cart saved as history", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Cart is already empty!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void saveHistorytoSharedPreference() {
 
         // Get existing purchase history (if any)
         ArrayList<Food> existingHistory = getPurchaseHistory();
@@ -187,38 +212,15 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
 
     }
 
-    private void calculateTotals(ArrayList<Food> cartList) {
-        // Retrieve item data from your data source
-        ArrayList<Food> cartLis = cartList;
+    private ArrayList<Food> getPurchaseHistory() {
+        SharedPreferences sharedPref = getSharedPreferences("purchaseHistory", MODE_PRIVATE);
+        String historyJson = sharedPref.getString("lastPurchase", "");
 
-        // Calculate item total
-        double itemTotalPrice = 0;
-        double totalofitem = 0;
-        for (Food item : cartLis) {
-            itemTotalPrice += item.getFee() * item.getNumberInCart();
-            totalofitem += item.getNumberInCart();
-        }
-
-
-        // Update the UI
-        totalOfItem.setText(totalofitem + "");
-        totalPrice.setText(itemTotalPrice + "");
+        ArrayList<Food> historyList = new Gson().fromJson(historyJson, new TypeToken<ArrayList<Food>>() {
+        }.getType());
+        return historyList;
     }
 
-    private double calculateDeliveryFee(double itemTotal) {
-        // Adjust this logic based on your delivery fee criteria
-        if (itemTotal > 100) {
-            return 0; // Free delivery for orders over $100
-        } else {
-            return 5; // Fixed delivery fee
-        }
-    }
-
-    private double calculateTax(double itemTotal) {
-        // Adjust this logic based on your region's tax rate
-        double taxRate = 0.08; // 8% tax rate
-        return itemTotal * taxRate;
-    }
 
     /**
      * Retrieves the cart list from shared preferences.
@@ -258,15 +260,24 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         editor.apply();
     }
 
+    private void calculateTotals(ArrayList<Food> cartList) {
+        // Retrieve item data from your data source
+        ArrayList<Food> cartLis = cartList;
 
-    private ArrayList<Food> getPurchaseHistory() {
-        SharedPreferences sharedPref = getSharedPreferences("purchaseHistory", MODE_PRIVATE);
-        String historyJson = sharedPref.getString("lastPurchase", "");
+        // Calculate item total
+        double itemTotalPrice = 0;
+        double totalofitem = 0;
+        for (Food item : cartLis) {
+            itemTotalPrice += item.getFee() * item.getNumberInCart();
+            totalofitem += item.getNumberInCart();
+        }
 
-        ArrayList<Food> historyList = new Gson().fromJson(historyJson, new TypeToken<ArrayList<Food>>() {
-        }.getType());
-        return historyList;
+
+        // Update the UI
+        totalOfItem.setText(totalofitem + "");
+        totalPrice.setText(itemTotalPrice + "");
     }
+
 
     /**
      * Handles the removal of an item from the cart. (Implementation required)

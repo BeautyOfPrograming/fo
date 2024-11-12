@@ -95,7 +95,7 @@ public class Fragment_Profile extends Fragment {
 
                         // Create a new PurchaseHistory object with the extracted data
 
-                        Food food = new Food(itemName,itemImage, "dump", itemPrice, quantity);
+                        Food food = new Food(itemName, itemImage, "dump", itemPrice, quantity);
 
                         historyList.add(food);
                     }
