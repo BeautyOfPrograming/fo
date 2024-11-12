@@ -20,6 +20,8 @@ import java.util.Map;
 // add to baseket
 // buy zarinpal whole data with out registeration
 //---------------- choose color pngs, change color of navigation and card, take recycle view height to bottom nav
+// previous images,detail image,image in history,persian text,down screen,,image at the same size,use local save data when purchasing is done
+//  most delicious food for all people
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout container;

@@ -6,10 +6,10 @@ public class Food implements Serializable {
     private String title;
     private int pic;
     private String description;
-    private Double fee;
+    private double fee;
     private int numberInCart;
 
-    public Food(String title, int pic, String description, Double fee, int numberInCart) {
+    public Food(String title, int pic, String description, double fee, int numberInCart) {
         this.title = title;
         this.pic = pic;
         this.description = description;
@@ -41,11 +41,11 @@ public class Food implements Serializable {
         this.description = description;
     }
 
-    public Double getFee() {
+    public double getFee() {
         return fee;
     }
 
-    public void setFee(Double fee) {
+    public void setFee(double fee) {
         this.fee = fee;
     }
 

@@ -16,7 +16,9 @@ import com.example.fragment4.Model.OnRemoveItemClickListener;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -122,31 +124,35 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
 //    }
 
     private void saveCartAsHistory(ArrayList<Food> cartList) {
-
         if (cartList != null && !cartList.isEmpty()) {
+            for (Food item : cartList) {
+                ParseObject purchaseHistory = new ParseObject("PurchaseHistory");
 
-            // Get existing purchase history (if any)
-            ArrayList<Food> existingHistory = getPurchaseHistory();
+                // Assuming you're using Parse User authentication
+                String userId = "0";
+                purchaseHistory.put("user_id", userId);
 
-            // Create a new list to hold the complete history
-            ArrayList<Food> completeHistory = new ArrayList<>();
+                purchaseHistory.put("item_name", item.getTitle());
+                purchaseHistory.put("item_price", item.getFee());
+                purchaseHistory.put("quantity", item.getNumberInCart());
+                purchaseHistory.put("item_image", item.getPic() );
 
-            // Append current cart to history
-            if (existingHistory != null) {
-                completeHistory.addAll(existingHistory);
+                purchaseHistory.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d("CartActivity", "Purchase history saved successfully!");
+                        } else {
+                            Log.e("CartActivity", "Error saving purchase history: " + e.getMessage(), e);
+                            Toast.makeText(CartActivity.this, "Error saving history to Back4App!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-            completeHistory.addAll(cartList);
 
-            // Convert the complete history to JSON string
-            String historyJson = new Gson().toJson(completeHistory);
-
-            // Save the JSON string to purchaseHistory
-            SharedPreferences sharedPref = getSharedPreferences("purchaseHistory", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("lastPurchase", historyJson);
-            editor.apply();
-
-            // Clear the current cart
+            // save to history sharedpreferences
+            saveToHistory();
+            // Clear the current cart after successful save
             cartList.clear();
             saveCartListToSharedPreferences(cartList);  // Save the empty cart
             adapter.notifyDataSetChanged();  // Update adapter to reflect empty cart
@@ -154,9 +160,32 @@ public class CartActivity extends AppCompatActivity implements OnRemoveItemClick
         } else {
             Toast.makeText(this, "Cart is already empty!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
+    private void saveToHistory() {
+
+        // Get existing purchase history (if any)
+        ArrayList<Food> existingHistory = getPurchaseHistory();
+
+        // Create a new list to hold the complete history
+        ArrayList<Food> completeHistory = new ArrayList<>();
+
+        // Append current cart to history
+        if (existingHistory != null) {
+            completeHistory.addAll(existingHistory);
+        }
+        completeHistory.addAll(cartList);
+
+        // Convert the complete history to JSON string
+        String historyJson = new Gson().toJson(completeHistory);
+
+        // Save the JSON string to purchaseHistory
+        SharedPreferences sharedPref = getSharedPreferences("purchaseHistory", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("lastPurchase", historyJson);
+        editor.apply();
+
+    }
 
     private void calculateTotals(ArrayList<Food> cartList) {
         // Retrieve item data from your data source

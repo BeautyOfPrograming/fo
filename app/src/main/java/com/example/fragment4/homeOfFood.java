@@ -20,8 +20,7 @@ import com.example.fragment4.Model.HomeDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
-// previous images,detail image,image in history,persian text,down screen,,image at the same size
-//  most delicious food for all people
+
 public class homeOfFood extends Fragment {
 
     private RecyclerView recyclerView;

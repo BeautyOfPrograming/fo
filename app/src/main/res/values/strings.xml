@@ -9,4 +9,5 @@
     <!-- Paste BOTH strings as required -->
     <string name="back4app_app_id">M7mgwZmXoyuMscL1LqfpDlrOnElJKn98Jf9RtcJj</string>
     <string name="back4app_client_key">7qVNfzbinUCGQOLiVj6YleY7pwQMPvoVFLSiF4Ua</string>
+    <string name="anonymous_user_id">0</string>
 </resources>

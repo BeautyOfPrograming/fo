@@ -10,20 +10,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fragment4.Model.Food;
 
+import com.example.fragment4.Model.back4app.PurchaseHistory;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 public class Fragment_Profile extends Fragment {
 
     private RecyclerView recyclerView;
@@ -42,8 +54,8 @@ public class Fragment_Profile extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Fetch history data from your data source
-        historyList = getPurchaseHistory();
+        // Fetch history data from Back4App
+        fetchPurchaseHistoryFromBack4App();
 
         adapter = new HistoryCartAdapter(getContext(), historyList);
         recyclerView.setAdapter(adapter);
@@ -59,26 +71,50 @@ public class Fragment_Profile extends Fragment {
         inflater.inflate(R.menu.menu_home, menu); // Assuming menu_home.xml defines options for Fragment_First
     }
 
-    private ArrayList<Food> getCartListFromSharedPreferences() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("purchaseHistory", MODE_PRIVATE);
-        String historyJson = sharedPref.getString("lastPurchase", "");
 
-        ArrayList<Food> cartList = new ArrayList<>();
-        if (!historyJson.isEmpty()) {
-            Type type = new TypeToken<ArrayList<Food>>() {}.getType();
-            cartList = new Gson().fromJson(historyJson, type);
-        }
+    private void fetchPurchaseHistoryFromBack4App() {
+        historyList = new ArrayList<>();
 
-        return cartList;
+        // Securely retrieve the anonymous user ID
+        String anonymousUserId = getResources().getString(R.string.anonymous_user_id); // Replace with your secure storage method
 
-//        return new ArrayList<>(); // Empty list if no purchase history found
+        // Build ParseQuery for PurchaseHistory class
+        ParseQuery<PurchaseHistory> query = ParseQuery.getQuery(PurchaseHistory.class);
+        query.whereEqualTo("user_id", anonymousUserId);  // Filter by anonymous user ID
+
+        query.findInBackground(new FindCallback<PurchaseHistory>() {
+            @Override
+            public void done(List<PurchaseHistory> objects, ParseException e) {
+                if (e == null) {
+                    historyList.clear();  // Clear existing data before populating
+                    for (ParseObject purchaseObject : objects) {
+                        String itemName = purchaseObject.getString("item_name");
+                        double itemPrice = purchaseObject.getDouble("item_price");
+                        int quantity = purchaseObject.getInt("quantity");
+                        int itemImage = purchaseObject.getInt("item_image");  // assuming "item_image" is a String in your schema
+
+                        // Create a new PurchaseHistory object with the extracted data
+
+                        Food food = new Food(itemName,itemImage, "dump", itemPrice, quantity);
+
+                        historyList.add(food);
+                    }
+                    adapter.notifyDataSetChanged();  // Update adapter with retrieved data
+                } else {
+                    Log.e("Fragment_Profile", "Error fetching purchase history: " + e.getMessage());
+//                    Toast.makeText(getContext(), "Error fetching history!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
 
     private ArrayList<Food> getPurchaseHistory() {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("purchaseHistory", MODE_PRIVATE);
         String historyJson = sharedPref.getString("lastPurchase", "");
 
-        historyList = new Gson().fromJson(historyJson, new TypeToken<ArrayList<Food>>() {}.getType());
+        historyList = new Gson().fromJson(historyJson, new TypeToken<ArrayList<Food>>() {
+        }.getType());
         return historyList;
     }
 

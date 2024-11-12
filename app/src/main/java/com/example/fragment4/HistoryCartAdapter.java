@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * This class represents an adapter for displaying cart items in a RecyclerView.
  */
-public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.CartViewHolder>  {
+public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.CartViewHolder> {
 
     /**
      * The context of the activity or fragment using this adapter.
@@ -50,6 +50,7 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
         editor.putString("lastPurchase", json);
         editor.apply();
     }
+
     public void setItemsTotalTextView(TextView itemsTotalTextView) {
         this.itemsTotalTextView = itemsTotalTextView;
     }
@@ -76,7 +77,7 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
      * Constructor for the CartAdapter.
      *
      * @param context The context of the activity or fragment.
-     * @param data The list of Food objects representing cart items.
+     * @param data    The list of Food objects representing cart items.
      */
     public HistoryCartAdapter(Context context, ArrayList<Food> data) {
         this.context = context;
@@ -87,7 +88,7 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
     /**
      * Creates a new CartViewHolder instance by inflating the cart item layout.
      *
-     * @param parent The ViewGroup where the inflated view will be added.
+     * @param parent   The ViewGroup where the inflated view will be added.
      * @param viewType The view type for the current position.
      * @return A new CartViewHolder instance.
      */
@@ -102,7 +103,7 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
     /**
      * Binds the data for a specific cart item to the corresponding view holder.
      *
-     * @param holder The CartViewHolder instance to bind data to.
+     * @param holder   The CartViewHolder instance to bind data to.
      * @param position The position of the item in the data list.
      */
     @Override
@@ -145,6 +146,18 @@ public class HistoryCartAdapter extends RecyclerView.Adapter<HistoryCartAdapter.
         editor.putString("cart_list", cartListString);
         editor.apply();
     }
+
+    /**
+     * Updates the adapter's internal data list with the provided new history list.
+     * This method should be called whenever the history data changes.
+     *
+     * @param newList The new list of Food objects representing the updated purchase history.
+     */
+    public void updateHistoryList(ArrayList<Food> newList) {
+        this.historyList = newList;
+        notifyDataSetChanged(); // Notify the adapter about the data change
+    }
+
 
     /**
      * The ViewHolder class for the CartAdapter.
